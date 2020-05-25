@@ -1,0 +1,20 @@
+settings/
+Debug/
+
+.settings/language.settings.xml
+
+
+# Compiled Binaries
+*.bin
+*.elf
+*.hex
+*.map
+
+
+
+# Build
+*.d
+*.o
+*.su
+
+*.dump
