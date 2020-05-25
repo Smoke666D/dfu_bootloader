@@ -1,0 +1,6 @@
+usbd_dfu_if.c:263:10:MEM_If_Read_FS	8	static
+usbd_dfu_if.c:285:10:MEM_If_GetStatus_FS	0	static
+usbd_dfu_if.c:223:10:MEM_If_Write_FS	24	static
+usbd_dfu_if.c:188:10:MEM_If_Erase_FS	32	static
+usbd_dfu_if.c:171:10:MEM_If_DeInit_FS	8	static
+usbd_dfu_if.c:155:10:MEM_If_Init_FS	8	static
