@@ -91,7 +91,8 @@
   */
 
 /* USER CODE BEGIN PRIVATE_VARIABLES */
-static uint8_t AESkey[16U] = { 0x83U, 0xF7U, 0x79U, 0x7FU, 0x52U, 0x1EU, 0x37U, 0xA2U, 0x6BU, 0xAFU, 0xBBU, 0xD0U, 0x41U, 0x77U, 0x9AU, 0xB5U };
+static uint8_t key[16U]  = { 0x83U, 0xF7U, 0x79U, 0x7FU, 0x52U, 0x1EU, 0x37U, 0xA2U, 0x6BU, 0xAFU, 0xBBU, 0xD0U, 0x41U, 0x77U, 0x9AU, 0xB5U };
+static uint8_t iv[16U]   = { 0x49U, 0x60U, 0x7BU, 0x42U, 0x55U, 0xE6U, 0xE9U, 0x4BU, 0x3CU, 0xC7U, 0x76U, 0xFBU, 0x06U, 0x67U, 0xA9U, 0xF2U };
 static struct AES_ctx ctx;
 /* USER CODE END PRIVATE_VARIABLES */
 
@@ -227,6 +228,8 @@ uint16_t MEM_If_Write_FS(uint8_t *src, uint8_t *dest, uint32_t Len)
   uint32_t           i      = 0U;
   USBD_StatusTypeDef result = USBD_FAIL;
 
+#if ( ENCRYPTION_ENB > 0 )
+#endif
   for ( i=0U; i<Len; i+=4U )
   {
 	if ( ( uint32_t )( dest + i ) > BOOTLADER_SIZE )
@@ -265,6 +268,7 @@ uint8_t *MEM_If_Read_FS(uint8_t *src, uint8_t *dest, uint32_t Len)
 {
   /* Return a valid address to avoid HardFault */
   /* USER CODE BEGIN 4 */
+#if ( READING_ENB > 0 )
   uint32_t i    = 0U;
   uint8_t *psrc = src;
 
@@ -273,6 +277,9 @@ uint8_t *MEM_If_Read_FS(uint8_t *src, uint8_t *dest, uint32_t Len)
     dest[i] = *psrc++;
   }
   return ( uint8_t* )( dest );
+#else
+  return (USBD_OK);
+#endif
   /* USER CODE END 4 */
 }
 
