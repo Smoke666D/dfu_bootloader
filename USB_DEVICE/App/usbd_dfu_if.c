@@ -159,6 +159,9 @@ __ALIGN_BEGIN USBD_DFU_MediaTypeDef USBD_DFU_fops_FS __ALIGN_END =
 uint16_t MEM_If_Init_FS(void)
 {
   /* USER CODE BEGIN 0 */
+  #if ( ENCRYPTION_ENB > 0 )
+    AES_init_ctx_iv( &ctx, key, iv );
+  #endif
   HAL_StatusTypeDef flashStatus = HAL_ERROR;
   while ( flashStatus != HAL_OK )
   {
@@ -231,7 +234,6 @@ uint16_t MEM_If_Write_FS(uint8_t *src, uint8_t *dest, uint32_t Len)
   USBD_StatusTypeDef result = USBD_FAIL;
 
   #if ( ENCRYPTION_ENB > 0 )
-    AES_init_ctx_iv( &ctx, key, iv );
     AES_CBC_decrypt_buffer( &ctx, src, Len );
   #endif
   for ( i=0U; i<Len; i+=4U )
