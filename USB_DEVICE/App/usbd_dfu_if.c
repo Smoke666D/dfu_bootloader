@@ -22,9 +22,7 @@
 #include "usbd_dfu_if.h"
 
 /* USER CODE BEGIN INCLUDE */
-#if ( ENCRYPTION > 0 )
 #include "aes.h"
-#endif
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -65,7 +63,7 @@ static uint8_t iv[16U]   = { 0x49U, 0x60U, 0x7BU, 0x42U, 0x55U, 0xE6U, 0xE9U, 0x
   * @{
   */
 
-#define FLASH_DESC_STR    "@Internal Flash/0x08004000/03*016Kg,01*064Kg,07*128Kg"
+#define FLASH_DESC_STR    "@Internal Flash/0x08008000/02*016Kg,01*064Kg,07*128Kg"
 
 /* USER CODE BEGIN PRIVATE_DEFINES */
 
@@ -94,7 +92,11 @@ static uint8_t iv[16U]   = { 0x49U, 0x60U, 0x7BU, 0x42U, 0x55U, 0xE6U, 0xE9U, 0x
   */
 
 /* USER CODE BEGIN PRIVATE_VARIABLES */
-
+#if ( ENCRYPTION_ENB > 0 )
+  static uint8_t key[16U]  = { 0x83U, 0xF7U, 0x79U, 0x7FU, 0x52U, 0x1EU, 0x37U, 0xA2U, 0x6BU, 0xAFU, 0xBBU, 0xD0U, 0x41U, 0x77U, 0x9AU, 0xB5U };
+  static uint8_t iv[16U]   = { 0x49U, 0x60U, 0x7BU, 0x42U, 0x55U, 0xE6U, 0xE9U, 0x4BU, 0x3CU, 0xC7U, 0x76U, 0xFBU, 0x06U, 0x67U, 0xA9U, 0xF2U };
+  static struct AES_ctx ctx;
+#endif
 /* USER CODE END PRIVATE_VARIABLES */
 
 /**
@@ -158,6 +160,9 @@ __ALIGN_BEGIN USBD_DFU_MediaTypeDef USBD_DFU_fops_FS __ALIGN_END =
 uint16_t MEM_If_Init_FS(void)
 {
   /* USER CODE BEGIN 0 */
+  #if ( ENCRYPTION_ENB > 0 )
+    AES_init_ctx_iv( &ctx, key, iv );
+  #endif
   HAL_StatusTypeDef flashStatus = HAL_ERROR;
   while ( flashStatus != HAL_OK )
   {
@@ -230,11 +235,9 @@ uint16_t MEM_If_Write_FS(uint8_t *src, uint8_t *dest, uint32_t Len)
   USBD_StatusTypeDef result = USBD_FAIL;
   struct AES_ctx     ctx;
 
-  #if ( ENCRYPTION > 0U )
-    AES_init_ctx_iv( &ctx, key, iv );
+  #if ( ENCRYPTION_ENB > 0 )
     AES_CBC_decrypt_buffer( &ctx, src, Len );
   #endif
-
   for ( i=0U; i<Len; i+=4U )
   {
 	if ( ( uint32_t )( dest + i ) > BOOTLADER_SIZE )
@@ -273,18 +276,18 @@ uint8_t *MEM_If_Read_FS(uint8_t *src, uint8_t *dest, uint32_t Len)
 {
   /* Return a valid address to avoid HardFault */
   /* USER CODE BEGIN 4 */
-#if ( READ_ENABLE > 0 )
-  uint32_t i    = 0U;
-  uint8_t *psrc = src;
+  #if ( READING_ENB > 0 )
+    uint32_t i    = 0U;
+    uint8_t *psrc = src;
 
-  for ( i=0U; i<Len; i++ )
-  {
-    dest[i] = *psrc++;
-  }
-  return ( uint8_t* )( dest );
-#else
-  return ( USBD_OK );
-#endif
+    for ( i=0U; i<Len; i++ )
+    {
+      dest[i] = *psrc++;
+    }
+    return ( uint8_t* )( dest );
+  #else
+    return (USBD_OK);
+  #endif
   /* USER CODE END 4 */
 }
 

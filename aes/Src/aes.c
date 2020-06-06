@@ -185,7 +185,7 @@ void AES_init_ctx_iv( struct AES_ctx* ctx, const uint8_t* key, const uint8_t* iv
 }
 void AES_ctx_set_iv( struct AES_ctx* ctx, const uint8_t* iv )
 {
-  memcpy (ctx->Iv, iv, AES_BLOCKLEN);
+  memcpy ( ctx->Iv, iv, AES_BLOCKLEN );
   return;
 }
 #endif
@@ -298,7 +298,7 @@ static void MixColumns(state_t* state)
 // Please use the references to gain more information.
 static void InvMixColumns( state_t* state )
 {
-  int i = 0U;
+  uint8_t i = 0U;
   uint8_t a = 0U;
   uint8_t b = 0U;
   uint8_t c = 0U;
@@ -367,10 +367,8 @@ static void InvShiftRows( state_t* state )
 static void Cipher( state_t* state, const uint8_t* RoundKey )
 {
   uint8_t round = 0U;
-
   // Add the First round key to the state before starting the rounds.
   AddRoundKey( 0U, state, RoundKey );
-
   // There will be Nr rounds.
   // The first Nr-1 rounds are identical.
   // These Nr rounds are executed in the loop below.
