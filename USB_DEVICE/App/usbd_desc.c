@@ -63,12 +63,12 @@
   * @{
   */
 
-#define USBD_VID     1155
-#define USBD_LANGID_STRING     1033
+#define USBD_VID                     1155
+#define USBD_LANGID_STRING           1033                              /* US English code */
 #define USBD_MANUFACTURER_STRING     "STMicroelectronics"
-#define USBD_PID_FS     57105
-#define USBD_PRODUCT_STRING_FS     "STM32 DownLoad Firmware Update"
-#define USBD_CONFIGURATION_STRING_FS     "DFU Config"
+#define USBD_PID_FS                  57113 //57105
+#define USBD_PRODUCT_STRING_FS       "STM32 DownLoad Firmware Update"
+#define USBD_CONFIGURATION_STRING_FS "DFU Config"
 #define USBD_INTERFACE_STRING_FS     "DFU Interface"
 
 /* USER CODE BEGIN PRIVATE_DEFINES */
@@ -121,7 +121,8 @@ uint8_t * USBD_FS_ProductStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length
 uint8_t * USBD_FS_SerialStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
 uint8_t * USBD_FS_ConfigStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
 uint8_t * USBD_FS_InterfaceStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-
+uint8_t * USBD_FS_MicrosoftStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+uint8_t * USBD_FS_MicrosoftFeatureDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
 /**
   * @}
   */
@@ -140,6 +141,56 @@ USBD_DescriptorsTypeDef FS_Desc =
 , USBD_FS_SerialStrDescriptor
 , USBD_FS_ConfigStrDescriptor
 , USBD_FS_InterfaceStrDescriptor
+, USBD_FS_MicrosoftStrDescriptor
+, USBD_FS_MicrosoftFeatureDescriptor
+};
+
+#if defined ( __ICCARM__ ) /* IAR Compiler */
+  #pragma data_alignment=4
+#endif /* defined ( __ICCARM__ ) */
+/** Microsoft OS String Descriptor */
+__ALIGN_BEGIN uint8_t USBD_MicrosoftStrDesc[USB_LEN_MICROSOFT_STR_DESC] __ALIGN_END =
+{
+  USB_LEN_MICROSOFT_STR_DESC, /*bLength*/
+  USB_DESC_TYPE_STRING,       /*bDescriptorType*/
+  0x4D, 0x00,                 /*M*/
+  0x53, 0x00,                 /*S*/
+  0x46, 0x00,                 /*F*/
+  0x54, 0x00,                 /*T*/
+  0x31, 0x00,                 /*1*/
+  0x30, 0x00,                 /*0*/
+  0x30, 0x00,                 /*0*/
+  USBD_WINUSB_VENDOR_CODE,    /*bVendorCode*/
+  0x00                        /*bPad*/
+};
+
+#if defined ( __ICCARM__ ) /* IAR Compiler */
+  #pragma data_alignment=4
+#endif /* defined ( __ICCARM__ ) */
+/** Microsoft Compatible ID Feature Descriptor */
+__ALIGN_BEGIN uint8_t USBD_MicrosoftFeatureDesc[USB_LEN_MICROSOFT_FEATURE_DESC] __ALIGN_END =
+{
+  USB_LEN_MICROSOFT_FEATURE_DESC, /*bLength*/
+  0x00, 0x00, 0x00,
+  0x00, 0x01,                     /*bVersion*/
+  0x04, 0x00,                     /*bDescriptorIndex*/
+  0x01,                           /*bNumberOfSections*/
+  0x00, 0x00, 0x00, 0x00,         /*Reserved*/
+  0x00, 0x00, 0x00,
+  0x00,                           /*bInterface*/
+  0x01,                           /*Reserved*/
+  0x57,                           /*W*/
+  0x49,                           /*I*/
+  0x4E,                           /*N*/
+  0x55,                           /*U*/
+  0x53,                           /*S*/
+  0x42,                           /*B*/
+  0x00,                           /*0*/
+  0x00,                           /*0*/
+  0x00, 0x00, 0x00, 0x00,         /*Unused*/
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,         /*Reserved*/
+  0x00, 0x00
 };
 
 #if defined ( __ICCARM__ ) /* IAR Compiler */
@@ -226,6 +277,32 @@ uint8_t * USBD_FS_DeviceDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
   UNUSED(speed);
   *length = sizeof(USBD_FS_DeviceDesc);
   return USBD_FS_DeviceDesc;
+}
+
+/**
+ * @brief  Return the Microsoft string descriptor
+ * @param  speed : Current device speed
+ * @param  length : Pointer to data length variable
+ * @retval Pointer to descriptor buffer
+ */
+uint8_t * USBD_FS_MicrosoftStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
+{
+  UNUSED(speed);
+  *length = sizeof(USBD_MicrosoftStrDesc);
+  return USBD_MicrosoftStrDesc;
+}
+
+/**
+ * @brief  Return the Microsoft Compatible ID Feature Descriptor
+ * @param  speed : Current device speed
+ * @param  length : Pointer to data length variable
+ * @retval Pointer to descriptor buffer
+ */
+uint8_t * USBD_FS_MicrosoftFeatureDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
+{
+  UNUSED(speed);
+  *length = sizeof(USBD_MicrosoftFeatureDesc);
+  return USBD_MicrosoftFeatureDesc;
 }
 
 /**

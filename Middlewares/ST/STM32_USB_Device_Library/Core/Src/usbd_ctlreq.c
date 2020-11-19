@@ -94,6 +94,7 @@ static void USBD_ClrFeature(USBD_HandleTypeDef *pdev,
 
 static uint8_t USBD_GetLen(uint8_t *buf);
 
+static void USBD_WinUSBGetDescriptor ( USBD_HandleTypeDef* pdev, USBD_SetupReqTypedef* req );
 /**
   * @}
   */
@@ -120,7 +121,15 @@ USBD_StatusTypeDef  USBD_StdDevReq(USBD_HandleTypeDef *pdev,
   {
     case USB_REQ_TYPE_CLASS:
     case USB_REQ_TYPE_VENDOR:
-      pdev->pClass->Setup(pdev, req);
+      switch (req->bRequest)
+      {
+        case USBD_WINUSB_VENDOR_CODE:
+          USBD_WinUSBGetDescriptor(pdev, req);
+          break;
+        default:
+          pdev->pClass->Setup(pdev, req);
+          break;
+      }
       break;
 
     case USB_REQ_TYPE_STANDARD:
@@ -152,6 +161,10 @@ USBD_StatusTypeDef  USBD_StdDevReq(USBD_HandleTypeDef *pdev,
 
         case USB_REQ_CLEAR_FEATURE:
           USBD_ClrFeature(pdev, req);
+          break;
+
+        case USB_REQ_MS_VENDOR_CODE:
+          USBD_WinUSBGetDescriptor(pdev, req);
           break;
 
         default:
@@ -213,6 +226,11 @@ USBD_StatusTypeDef  USBD_StdItfReq(USBD_HandleTypeDef *pdev,
       break;
 
     default:
+      if ( req->bmRequest == 0xC1 )
+      {
+        USBD_WinUSBGetDescriptor( pdev, req );
+        break;
+      }
       USBD_CtlError(pdev, req);
       break;
   }
@@ -444,6 +462,18 @@ static void USBD_GetDescriptor(USBD_HandleTypeDef *pdev,
     case USB_DESC_TYPE_STRING:
       switch ((uint8_t)(req->wValue))
       {
+        case USBD_IDX_MICROSOFT_STR:
+          if (pdev->pDesc->GetWinUSBOSStrDescriptor != NULL)
+          {
+        	pbuf = pdev->pDesc->GetWinUSBOSStrDescriptor( pdev->dev_speed, &len );
+          }
+          else
+          {
+            USBD_CtlError(pdev, req);
+            err++;
+          }
+          break;
+
         case USBD_IDX_LANGID_STR:
           if (pdev->pDesc->GetLangIDStrDescriptor != NULL)
           {
@@ -821,6 +851,30 @@ static void USBD_ClrFeature(USBD_HandleTypeDef *pdev,
       USBD_CtlError(pdev, req);
       break;
   }
+}
+
+static void USBD_WinUSBGetDescriptor ( USBD_HandleTypeDef* pdev, USBD_SetupReqTypedef* req )
+{
+  uint16_t len  = 0U;
+  uint8_t* pbuf = NULL;
+  switch (req->wIndex)
+  {
+    case 0x04: // compat ID
+      pbuf = pdev->pDesc->GetWinUSBOSFeatureDescriptor( pdev->dev_speed, &len );
+      break;
+    case 0x05:
+      //pbuf = pdev->pDesc->GetWinUSBOSPropertyDescriptor( &len );
+      break;
+    default:
+       USBD_CtlError(pdev , req);
+      return;
+  }
+  if ( ( len != 0U ) && ( req->wLength != 0U ) )
+  {
+    len = MIN( len ,req->wLength );
+    USBD_CtlSendData (pdev, pbuf, len );
+  }
+  return;
 }
 
 /**

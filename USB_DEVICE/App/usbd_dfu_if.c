@@ -20,7 +20,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_dfu_if.h"
-
 /* USER CODE BEGIN INCLUDE */
 #include "aes.h"
 /* USER CODE END INCLUDE */

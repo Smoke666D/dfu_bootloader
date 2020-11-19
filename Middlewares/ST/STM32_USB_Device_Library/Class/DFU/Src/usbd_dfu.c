@@ -56,7 +56,6 @@ EndBSPDependencies */
 #include "usbd_dfu.h"
 #include "usbd_ctlreq.h"
 
-
 /** @addtogroup STM32_USB_DEVICE_LIBRARY
   * @{
   */
@@ -357,16 +356,19 @@ static uint8_t  USBD_DFU_DeInit(USBD_HandleTypeDef *pdev,
 static uint8_t  USBD_DFU_Setup(USBD_HandleTypeDef *pdev,
                                USBD_SetupReqTypedef *req)
 {
-  USBD_DFU_HandleTypeDef   *hdfu;
-  uint8_t *pbuf = 0U;
-  uint16_t len = 0U;
-  uint16_t status_info = 0U;
-  uint8_t ret = USBD_OK;
+  USBD_DFU_HandleTypeDef* hdfu;
+  uint8_t*                pbuf        = 0U;
+  uint16_t                len         = 0U;
+  uint16_t                status_info = 0U;
+  uint8_t                 ret         = USBD_OK;
 
   hdfu = (USBD_DFU_HandleTypeDef *) pdev->pClassData;
 
   switch (req->bmRequest & USB_REQ_TYPE_MASK)
   {
+    case USB_REQ_TYPE_VENDOR:
+      break;
+
     case USB_REQ_TYPE_CLASS:
       switch (req->bRequest)
       {
