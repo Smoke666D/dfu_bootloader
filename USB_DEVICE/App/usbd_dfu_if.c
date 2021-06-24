@@ -20,6 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_dfu_if.h"
+
 /* USER CODE BEGIN INCLUDE */
 #include "aes.h"
 /* USER CODE END INCLUDE */
@@ -61,7 +62,7 @@
   * @{
   */
 
-#define FLASH_DESC_STR    "@Internal Flash/0x08008000/02*016Kg,01*064Kg,07*128Kg"
+#define FLASH_DESC_STR      "@Internal Flash/0x08008000/02*016Kg,01*064Kg,07*128Kg"
 
 /* USER CODE BEGIN PRIVATE_DEFINES */
 
@@ -226,7 +227,7 @@ uint16_t MEM_If_Erase_FS(uint32_t Add)
   * @param  Len: Number of data to be written (in bytes).
   * @retval USBD_OK if operation is successful, MAL_FAIL else.
   */
-uint16_t MEM_If_Write_FS( uint8_t *src, uint8_t *dest, uint32_t Len )
+uint16_t MEM_If_Write_FS(uint8_t *src, uint8_t *dest, uint32_t Len)
 {
   /* USER CODE BEGIN 3 */
   uint32_t           i      = 0U;

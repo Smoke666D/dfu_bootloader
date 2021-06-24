@@ -94,7 +94,9 @@ static void USBD_ClrFeature(USBD_HandleTypeDef *pdev,
 
 static uint8_t USBD_GetLen(uint8_t *buf);
 
-static void USBD_WinUSBGetDescriptor ( USBD_HandleTypeDef* pdev, USBD_SetupReqTypedef* req );
+static void USBD_WinUSBGetDescriptor (USBD_HandleTypeDef *pdev,
+				      USBD_SetupReqTypedef *req);
+
 /**
   * @}
   */
@@ -462,17 +464,17 @@ static void USBD_GetDescriptor(USBD_HandleTypeDef *pdev,
     case USB_DESC_TYPE_STRING:
       switch ((uint8_t)(req->wValue))
       {
-        case USBD_IDX_MICROSOFT_STR:
-          if (pdev->pDesc->GetWinUSBOSStrDescriptor != NULL)
-          {
-        	pbuf = pdev->pDesc->GetWinUSBOSStrDescriptor( pdev->dev_speed, &len );
-          }
-          else
-          {
-            USBD_CtlError(pdev, req);
-            err++;
-          }
-          break;
+	case USBD_IDX_MICROSOFT_STR:
+	  if (pdev->pDesc->GetWinUSBOSStrDescriptor != NULL)
+	  {
+	    pbuf = pdev->pDesc->GetWinUSBOSStrDescriptor( pdev->dev_speed, &len );
+	  }
+	  else
+	  {
+	    USBD_CtlError(pdev, req);
+	    err++;
+	  }
+	  break;
 
         case USBD_IDX_LANGID_STR:
           if (pdev->pDesc->GetLangIDStrDescriptor != NULL)
@@ -876,6 +878,7 @@ static void USBD_WinUSBGetDescriptor ( USBD_HandleTypeDef* pdev, USBD_SetupReqTy
   }
   return;
 }
+
 
 /**
 * @brief  USBD_ParseSetupRequest
