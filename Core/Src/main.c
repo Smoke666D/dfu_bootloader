@@ -86,14 +86,16 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
   if ( ( HAL_GPIO_ReadPin( BOOT1_GPIO_Port, BOOT1_Pin ) == GPIO_PIN_RESET ) &&
        ( HAL_GPIO_ReadPin( BOOT2_GPIO_Port, BOOT2_Pin ) == GPIO_PIN_RESET ) )
   {
     MX_USB_DEVICE_Init();
-    HAL_GPIO_WritePin( LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET );
-    HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET );
-    HAL_GPIO_WritePin( LED3_GPIO_Port, LED3_Pin, GPIO_PIN_RESET );
+    HAL_GPIO_WritePin( LED1_GPIO_Port,    LED1_Pin,    GPIO_PIN_RESET );
+    HAL_GPIO_WritePin( LED2_GPIO_Port,    LED2_Pin,    GPIO_PIN_RESET );
+    HAL_GPIO_WritePin( LED3_GPIO_Port,    LED3_Pin,    GPIO_PIN_RESET );
+    HAL_GPIO_WritePin( LED_SYS_GPIO_Port, LED_SYS_Pin, GPIO_PIN_RESET );
   }
   else
   {
@@ -178,6 +180,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOG, LED1_Pin|LED2_Pin|LED3_Pin, GPIO_PIN_SET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(LED_SYS_GPIO_Port, LED_SYS_Pin, GPIO_PIN_SET);
+
   /*Configure GPIO pins : BOOT1_Pin BOOT2_Pin */
   GPIO_InitStruct.Pin = BOOT1_Pin|BOOT2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -190,6 +195,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : LED_SYS_Pin */
+  GPIO_InitStruct.Pin = LED_SYS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(LED_SYS_GPIO_Port, &GPIO_InitStruct);
 
 }
 
