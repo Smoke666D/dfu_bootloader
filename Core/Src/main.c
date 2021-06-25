@@ -86,7 +86,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
   if ( ( HAL_GPIO_ReadPin( BOOT1_GPIO_Port, BOOT1_Pin ) == GPIO_PIN_RESET ) &&
        ( HAL_GPIO_ReadPin( BOOT2_GPIO_Port, BOOT2_Pin ) == GPIO_PIN_RESET ) )
