@@ -94,8 +94,8 @@ static void USBD_ClrFeature(USBD_HandleTypeDef *pdev,
 
 static uint8_t USBD_GetLen(uint8_t *buf);
 
-static void USBD_WinUSBGetDescriptor (USBD_HandleTypeDef *pdev,
-				      USBD_SetupReqTypedef *req);
+static void USBD_WinUSBGetDescriptor (USBD_HandleTypeDef* pdev,
+				      USBD_SetupReqTypedef* req);
 
 /**
   * @}
@@ -126,10 +126,10 @@ USBD_StatusTypeDef  USBD_StdDevReq(USBD_HandleTypeDef *pdev,
       switch (req->bRequest)
       {
         case USBD_WINUSB_VENDOR_CODE:
-          USBD_WinUSBGetDescriptor(pdev, req);
+          USBD_WinUSBGetDescriptor( pdev, req );
           break;
         default:
-          pdev->pClass->Setup(pdev, req);
+          pdev->pClass->Setup( pdev, req );
           break;
       }
       break;
@@ -166,7 +166,7 @@ USBD_StatusTypeDef  USBD_StdDevReq(USBD_HandleTypeDef *pdev,
           break;
 
         case USB_REQ_MS_VENDOR_CODE:
-          USBD_WinUSBGetDescriptor(pdev, req);
+          USBD_WinUSBGetDescriptor( pdev, req );
           break;
 
         default:
