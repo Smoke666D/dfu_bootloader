@@ -63,10 +63,10 @@
   * @{
   */
 
-#define USBD_VID     1155
+#define USBD_VID     0x16D0
 #define USBD_LANGID_STRING     1033
 #define USBD_MANUFACTURER_STRING     "Energan"
-#define USBD_PID_FS     57105
+#define USBD_PID_FS     0x10BD
 #define USBD_PRODUCT_STRING_FS     "Energan DownLoad Firmware Update"
 #define USBD_CONFIGURATION_STRING_FS     "DFU Config"
 #define USBD_INTERFACE_STRING_FS     "DFU Interface"
