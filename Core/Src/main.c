@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_dfu_if.h"
+#include "version.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,7 +44,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+static uint8_t versionMajor = FIRMWARE_VERSION_MAJOR;
+static uint8_t versionMinor = FIRMWARE_VERSION_MINOR;
+static uint8_t versionFix   = FIRMWARE_VERSION_FIX;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

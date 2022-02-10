@@ -91,7 +91,7 @@
   */
 
 /* USER CODE BEGIN PRIVATE_VARIABLES */
-#if ( ENCRYPTION_ENB > 0 )
+#if defined( ENCRYPTION )
   static const  uint8_t key[AES_KEYLEN]  = { 0x83, 0xF7, 0x79, 0x7F, 0x52, 0x1E, 0x37, 0xA2, 0x6B, 0xAF, 0xBB, 0xD0, 0x41, 0x77, 0x9A, 0xB5 };
   static const  uint8_t iv[AES_BLOCKLEN] = { 0x49, 0x60, 0x7B, 0x42, 0x55, 0xE6, 0xE9, 0x4B, 0x3C, 0xC7, 0x76, 0xFB, 0x06, 0x67, 0xA9, 0xF2 };
   static struct AES_ctx ctx              = { 0U };
@@ -159,7 +159,7 @@ __ALIGN_BEGIN USBD_DFU_MediaTypeDef USBD_DFU_fops_FS __ALIGN_END =
 uint16_t MEM_If_Init_FS(void)
 {
   /* USER CODE BEGIN 0 */
-  #if ( ENCRYPTION_ENB > 0 )
+  #if defined( ENCRYPTION )
     AES_init_ctx_iv( &ctx, key, iv );
   #endif
   HAL_StatusTypeDef flashStatus = HAL_ERROR;
@@ -233,7 +233,7 @@ uint16_t MEM_If_Write_FS(uint8_t *src, uint8_t *dest, uint32_t Len)
   uint32_t           i      = 0U;
   USBD_StatusTypeDef result = USBD_FAIL;
 
-  #if ( ENCRYPTION_ENB > 0 )
+  #if defined( ENCRYPTION )
     AES_CBC_decrypt_buffer( &ctx, src, Len );
   #endif
   for ( i=0U; i<Len; i+=4U )
