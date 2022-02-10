@@ -18,3 +18,7 @@ Debug/
 *.su
 
 *.dump
+
+*.launch
+
+.settings/
