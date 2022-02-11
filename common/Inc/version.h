@@ -12,5 +12,15 @@
 #define FIRMWARE_VERSION_MINOR  0U
 #define FIRMWARE_VERSION_FIX    0U
 
+#if ( FIRMWARE_VERSION_MAJOR > 255U )
+#error( "Major version too big" )
+#endif
+#if ( FIRMWARE_VERSION_MINOR > 255U )
+#error( "Minor version too big" )
+#endif
+#if ( FIRMWARE_VERSION_FIX > 255U )
+#error( "Fix version too big" )
+#endif
+
 
 #endif /* INC_VERSION_H_ */
