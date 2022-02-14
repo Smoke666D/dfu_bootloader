@@ -29,7 +29,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+volatile const uint32_t version __attribute__((section (".version"))) =  0U | ( FIRMWARE_VERSION_MAJOR << 16U ) | ( FIRMWARE_VERSION_MINOR << 8U ) | FIRMWARE_VERSION_FIX;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -38,15 +38,11 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-static uint8_t versionMajor = FIRMWARE_VERSION_MAJOR;
-static uint8_t versionMinor = FIRMWARE_VERSION_MINOR;
-static uint8_t versionFix   = FIRMWARE_VERSION_FIX;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -68,7 +64,6 @@ static void MX_GPIO_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -77,7 +72,6 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
   /* USER CODE END Init */
 
   /* Configure the system clock */
