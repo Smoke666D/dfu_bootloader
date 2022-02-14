@@ -37,8 +37,8 @@ _Min_Stack_Size = 0x400 ;	/* required amount of stack */
 MEMORY
 {
   RAM      (xrw)   : ORIGIN = 0x20000000,   LENGTH = 32K
-  FLASH    (rx)    : ORIGIN = 0x8000000,    LENGTH = 0x7FE0
-  VERSION  (rx)    : ORIGIN = 0x8007FF0,    LENGTH = 0x20
+  FLASH    (rx)    : ORIGIN = 0x8000000,    LENGTH = 0x7FFC
+  VERSION  (rx)    : ORIGIN = 0x8007FFC,    LENGTH = 0x4
 }
 
 
@@ -49,9 +49,7 @@ SECTIONS
   .version :
   {
     . = ALIGN(4);
-    __version_start__ = .;
-	*(.version*)
-    __version_end__ = .;
+    KEEP(*(.version))
     . = ALIGN(4);
   } > VERSION
   
