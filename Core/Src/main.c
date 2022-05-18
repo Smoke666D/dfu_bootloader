@@ -29,7 +29,9 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-volatile const uint32_t version __attribute__((section (".version"))) =  0U | ( FIRMWARE_VERSION_MAJOR << 16U ) | ( FIRMWARE_VERSION_MINOR << 8U ) | FIRMWARE_VERSION_FIX;
+volatile const uint32_t version __attribute__((section (".version"))) =  0U | ( ( ( uint32_t )( FIRMWARE_VERSION_MAJOR ) ) << 16U ) |
+                                                                              ( ( ( uint32_t )( FIRMWARE_VERSION_MINOR ) ) << 8U )  |
+                                                                                ( ( uint32_t )( FIRMWARE_VERSION_PATCH ) );
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/

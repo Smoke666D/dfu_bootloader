@@ -10,11 +10,11 @@
 
 #include "stm32f2xx_hal.h"
 
-#define FIRMWARE_VERSION_ADR    0x8007FF0
+#define FIRMWARE_VERSION_ADR    0x8007FF0U
 
 #define FIRMWARE_VERSION_MAJOR  1U
 #define FIRMWARE_VERSION_MINOR  0U
-#define FIRMWARE_VERSION_FIX    1U
+#define FIRMWARE_VERSION_PATCH  2U
 
 #if ( FIRMWARE_VERSION_MAJOR > 255U )
 #error( "Major version too big" )
