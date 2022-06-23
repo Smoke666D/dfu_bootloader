@@ -4,6 +4,7 @@ build/
 relese/
 test/
 reports/
+out/
 
 .settings/language.settings.xml
 
