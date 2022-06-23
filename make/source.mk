@@ -24,11 +24,13 @@ Core/Src/system_stm32f2xx.c \
 
 C_SOURCES_TEST = \
 Unity/unity_config.c \
-Unity/unity.c
+Unity/unity.c \
+tests/test_aes.c
 
 C_SOURCE_PROJ = \
-Core/Src/main.c \
 aes/Src/aes.c
 
-C_SOURCES      = $(C_SOURCE_LIBS) $(C_SOURCE_PROJ)
-C_TEST_SOURCES = $(C_SOURCES) $(C_SOURCES_TEST)
+C_SOURCE_MAIN  = Core/Src/main.c
+
+C_SOURCES      = $(C_SOURCE_MAIN) $(C_SOURCE_LIBS) $(C_SOURCE_PROJ)
+C_TEST_SOURCES = $(C_SOURCE_MAIN) $(C_SOURCES) $(C_SOURCES_TEST)

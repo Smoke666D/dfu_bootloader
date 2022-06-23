@@ -9,5 +9,4 @@ C_INCLUDES =  \
 -IUSB_DEVICE/Target \
 -ICore/Inc \
 -Iaes/Inc \
--Icommon/Inc \
--IUnity
+-Icommon/Inc

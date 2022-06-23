@@ -18,6 +18,7 @@
 -include make/source.mk
 -include make/includes.mk
 -include make/check.mk
+-include make/unit.mk
 
 ######################################
 # target
@@ -116,6 +117,11 @@ all: release
 release: $(TARGET_ELF) $(TARGET_HEX) $(TARGET_ZIP)
 
 test: $(TEST_ELF) $(TEST_HEX)
+
+unit:
+	$(UNIT_GCC) $(C_SOURCE_PROJ) $(C_SOURCES_TEST) $(GLOBAL_DEFINES) $(C_INCLUDES) -o $(UNIT_EXE_FILE)
+	$(UNIT_EXE_FILE)
+
 
 #######################################
 # build the application
