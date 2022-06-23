@@ -3,6 +3,7 @@ Debug/
 build/
 relese/
 test/
+reports/
 
 .settings/language.settings.xml
 

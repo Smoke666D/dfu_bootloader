@@ -17,6 +17,7 @@
 -include make/tools.mk
 -include make/source.mk
 -include make/includes.mk
+-include make/check.mk
 
 ######################################
 # target

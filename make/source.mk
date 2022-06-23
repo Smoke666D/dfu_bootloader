@@ -29,7 +29,9 @@ Middlewares/ST/STM32_USB_Device_Library/Class/DFU/Src/usbd_dfu.c \
 Core/Src/system_stm32f2xx.c \
 
 
-C_SOURCES_TEST =
+C_SOURCES_TEST = \
+Unity/unity_config.c \
+Unity/unity.c
 
 C_SOURCE_PROJ = \
 Core/Src/main.c \
