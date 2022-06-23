@@ -38,7 +38,7 @@ MEMORY
 {
   RAM      (xrw)   : ORIGIN = 0x20000000,   LENGTH = 32K
   FLASH    (rx)    : ORIGIN = 0x8000000,    LENGTH = 0x7FFC
-  VERSION  (rx)    : ORIGIN = 0x8007FFC,    LENGTH = 0x4
+  VERSION  (rx)    : ORIGIN = 0x8007FFC,    LENGTH = 4
 }
 
 

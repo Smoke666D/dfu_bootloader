@@ -1,5 +1,8 @@
 settings/
 Debug/
+build/
+relese/
+test/
 
 .settings/language.settings.xml
 
